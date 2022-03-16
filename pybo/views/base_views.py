@@ -35,7 +35,7 @@ def index(request):
     paginator = Paginator(question_list, 10)  # 페이지당 10개씩 보여주기
     page_obj = paginator.get_page(page)
 
-    context = {'question_list': page_obj, 'page': page, 'kw': kw, 'so': so}  # <------ so 추가
+    context = {'question_list': page_obj, 'page': page, 'kw': kw, 'so': so}
     return render(request, 'pybo/question_list.html', context)
 
 
@@ -45,11 +45,17 @@ def detail(request, question_id):
     """
     question = get_object_or_404(Question, pk=question_id)
     page = request.GET.get('page', '1')
+    so = request.GET.get('so', 'recommend')
 
-    answer_list = Answer.objects.filter(question=question).order_by('-create_date')
+    # 정렬
+    if so == 'recommend':
+        answer_list = Answer.objects.filter(question=question).annotate(num_voter=Count('voter')).order_by('-num_voter', '-create_date')
+
+    else:
+        answer_list = Answer.objects.filter(question=question).order_by('-create_date')
 
     paginator = Paginator(answer_list, 5)
     page_obj = paginator.get_page(page)
 
-    context = {'question': question, 'answer_list': page_obj, 'page': page}
+    context = {'question': question, 'answer_list': page_obj, 'page': page, 'so': so}
     return render(request, 'pybo/question_detail.html', context)
