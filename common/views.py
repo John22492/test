@@ -27,4 +27,10 @@ def page_not_found(request, exception):
     """
     return render(request, 'common/404.html', {})
 
+def server_error(request, exception):
+    """
+    500 Server Error
+    """
+    return render(reqquest, 'common/500.html', {})
+
 
