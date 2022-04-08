@@ -5,7 +5,6 @@ from django.shortcuts import render, get_object_or_404
 from ..models import Question, Answer, Category
 
 
-
 def index(request, category_name='qna'):
     """
     pybo 목록 출력
@@ -17,7 +16,6 @@ def index(request, category_name='qna'):
 
     category = get_object_or_404(Category, name=category_name)
     _question_list = Question.objects.filter(category__name=category.name)
-
 
 
     # 정렬
