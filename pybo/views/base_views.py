@@ -61,5 +61,5 @@ def detail(request, question_id):
     paginator = Paginator(answer_list, 5)
     page_obj = paginator.get_page(page)
 
-    context = {'question': question, 'answer_list': page_obj, 'page': page, 'so': so}
+    context = {'question': question, 'answer_list': page_obj, 'page': page, 'so': so, 'category': question.category}
     return render(request, 'pybo/question_detail.html', context)

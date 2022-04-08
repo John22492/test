@@ -12,7 +12,7 @@ class Category(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('pybo:question_create', args=[self.name])
+        return reverse('pybo:detail', args=[self.name])
 
 class Question(models.Model):
     class Meta:
@@ -32,7 +32,7 @@ class Question(models.Model):
         return self.subject
 
     def get_absolute_url(self):
-        return reverse('pybo:question_detail', args=[self.id])
+        return reverse('pybo:detail', args=[self.id])
 
     def get_recent_comments(self):
         return self.comment_set.all().order_by('-create_date')[:5]
