@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from ..models import Question, Answer, Category
 
 
-def index(request):
+def index(request, category_name='qna'):
     """
     pybo 목록 출력
     """
@@ -13,6 +13,9 @@ def index(request):
     page = request.GET.get('page', '1')  # 페이지
     kw = request.GET.get('kw', '')  # 검색어
     so = request.GET.get('so', 'recent')  # 정렬기준
+
+    category = get_object_or_404(Category, name=category_name)
+
 
 
     # 정렬
@@ -36,7 +39,7 @@ def index(request):
     paginator = Paginator(question_list, 10)  # 페이지당 10개씩 보여주기
     page_obj = paginator.get_page(page)
 
-    context = {'question_list': page_obj, 'page': page, 'kw': kw, 'so': so}
+    context = {'category': category, 'question_list': page_obj, 'page': page, 'kw': kw, 'so': so}
     return render(request, 'pybo/question_list.html', context)
 
 
